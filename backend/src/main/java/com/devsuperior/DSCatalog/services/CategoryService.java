@@ -12,6 +12,8 @@ import com.devsuperior.DSCatalog.entities.Category;
 import com.devsuperior.DSCatalog.repositories.CategoryRepository;
 import com.devsuperior.DSCatalog.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 
 @Service
 public class CategoryService {
@@ -32,11 +34,25 @@ public class CategoryService {
 		return new CategoryDTO(category);
 	}
 	
+	@Transactional
 	public CategoryDTO insert(CategoryDTO dto) {
 		Category entity = new Category();
 		entity.setName(dto.getName());
 		entity = repository.save(entity);
 		return new CategoryDTO(entity);
+	}
+	
+	@Transactional
+	public CategoryDTO update(Long id, CategoryDTO dto) {
+		try {	
+			Category entity = repository.getReferenceById(id);
+			entity.setName(dto.getName());
+			entity = repository.save(entity);
+			return new CategoryDTO(entity);
+		}
+		catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException("ID not found: " + id);
+		}
 	}
 
 }
