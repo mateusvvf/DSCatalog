@@ -25,10 +25,18 @@ public class CategoryService {
 		return categories.stream().map(obj -> new CategoryDTO(obj)).toList();
 	}
 	
+	@Transactional(readOnly = true)
 	public CategoryDTO findById(Long id) {
 		Optional<Category> result = repository.findById(id);
 		Category category = result.orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
 		return new CategoryDTO(category);
+	}
+	
+	public CategoryDTO insert(CategoryDTO dto) {
+		Category entity = new Category();
+		entity.setName(dto.getName());
+		entity = repository.save(entity);
+		return new CategoryDTO(entity);
 	}
 
 }
