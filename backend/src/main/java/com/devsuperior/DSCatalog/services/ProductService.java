@@ -32,7 +32,7 @@ public class ProductService {
 	@Transactional(readOnly = true)
 	public Page<ProductDTO> findAll(Pageable pageable) {
 		Page<Product> products = repository.findAll(pageable);
-		return products.map(obj -> new ProductDTO(obj	));
+		return products.map(obj -> new ProductDTO(obj));
 	}
 	
 	@Transactional(readOnly = true)
