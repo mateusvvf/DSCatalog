@@ -6,13 +6,34 @@ import java.util.List;
 
 import com.devsuperior.DSCatalog.entities.Product;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
+
 public class ProductDTO {
 	
 	private Long id;
+	
+	@NotBlank(message = "This field cannot be blank.")
+	@Size(min = 5, max = 60, message = "Must have between 5 and 60 characters.")
 	private String name;
+	
+	@NotBlank(message = "This field cannot be blank.")
+	@Size(max = 600, message = "Description must not exceed 600 characters.")
 	private String description;
+	
+	@Pattern(regexp = "^[0-9]+(\\.[0-9]{2})?$",
+			message = "Price must be a numeric value with exactly two decimal places, if any.")
+	@Positive(message = "The price must be a positive number.")
 	private Double price;
+	
+	@Pattern(regexp = "https?:\\/\\/.+\\.(?:png|jpg|jpeg)$",
+			message = "Please enter a valid image URL.")
 	private String imgUrl;
+	
+	@PastOrPresent(message = "Product date cannot be future.")
 	private Instant date;
 	
 	private List<CategoryDTO> categories = new ArrayList<>();

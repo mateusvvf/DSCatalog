@@ -20,6 +20,8 @@ import com.devsuperior.DSCatalog.dto.UserDTO;
 import com.devsuperior.DSCatalog.dto.UserInsertDTO;
 import com.devsuperior.DSCatalog.services.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/users")
 public class UserController {
@@ -40,7 +42,7 @@ public class UserController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<UserDTO> insert(@RequestBody UserInsertDTO insertDto) {
+	public ResponseEntity<UserDTO> insert(@Valid @RequestBody UserInsertDTO insertDto) {
 		UserDTO dto = service.insert(insertDto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(dto.getId()).toUri();
@@ -48,7 +50,7 @@ public class UserController {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<UserDTO> update(@PathVariable Long id, @RequestBody UserDTO dto) {
+	public ResponseEntity<UserDTO> update(@PathVariable Long id, @Valid @RequestBody UserDTO dto) {
 		dto = service.update(id, dto);
 		return ResponseEntity.ok(dto);
 	}

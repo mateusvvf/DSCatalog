@@ -5,11 +5,21 @@ import java.util.Set;
 
 import com.devsuperior.DSCatalog.entities.User;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
 public class UserDTO {
 
 	private Long id;
+	
+	@NotBlank(message = "This field cannot be blank.")
 	private String firstName;
+	
+	@NotBlank(message = "This field cannot be blank.")
 	private String lastName;
+	
+	@NotBlank(message = "This field cannot be blank.")
+	@Email(message = "Please enter a valid e-mail address.")
 	private String email;
 	
 	private Set<RoleDTO> roles = new HashSet<>();

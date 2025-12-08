@@ -2,9 +2,13 @@ package com.devsuperior.DSCatalog.dto;
 
 import com.devsuperior.DSCatalog.entities.Category;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class CategoryDTO {
 	
 	private Long id;
+	
+	@NotBlank(message = "This field cannot be blank.")
 	private String name;
 	
 	
