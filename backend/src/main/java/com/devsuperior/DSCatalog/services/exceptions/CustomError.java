@@ -1,4 +1,4 @@
-package com.devsuperior.DSCatalog.dto;
+package com.devsuperior.DSCatalog.services.exceptions;
 
 import java.time.Instant;
 

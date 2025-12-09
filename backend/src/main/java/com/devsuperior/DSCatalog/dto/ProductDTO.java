@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.devsuperior.DSCatalog.entities.Product;
 
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
@@ -24,8 +25,7 @@ public class ProductDTO {
 	@Size(max = 600, message = "Description must not exceed 600 characters.")
 	private String description;
 	
-	@Pattern(regexp = "^[0-9]+(\\.[0-9]{2})?$",
-			message = "Price must be a numeric value with exactly two decimal places, if any.")
+	@Digits(integer = 10, fraction = 2, message = "The price must have up to 2 decimal places.")
 	@Positive(message = "The price must be a positive number.")
 	private Double price;
 	
