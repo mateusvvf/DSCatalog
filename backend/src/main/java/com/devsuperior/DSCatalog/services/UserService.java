@@ -17,7 +17,6 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.devsuperior.DSCatalog.dto.RoleDTO;
 import com.devsuperior.DSCatalog.dto.UserDTO;
 import com.devsuperior.DSCatalog.dto.UserInsertDTO;
 import com.devsuperior.DSCatalog.dto.UserUpdateDTO;
@@ -88,7 +87,7 @@ public class UserService implements UserDetailsService {
 			
 		}
 		catch (Exception e) {
-			throw new UsernameNotFoundException("E-mail not found");
+			throw new UsernameNotFoundException("Invalid user.");
 		}
 		
 	}
@@ -103,6 +102,10 @@ public class UserService implements UserDetailsService {
 	public UserDTO insert(UserInsertDTO dto) {
 			User entity = new User();
 			copyDtoToEntity(dto, entity);
+			
+			Role role = roleRepository.findByAuthority("ROLE_OPERATOR");
+			entity.getRoles().add(role);
+			
 			entity.setPassword(passwordEncoder.encode(dto.getPassword()));
 			entity = repository.save(entity);
 			return new UserDTO(entity);
@@ -140,12 +143,6 @@ public class UserService implements UserDetailsService {
 		entity.setFirstName(dto.getFirstName());
 		entity.setLastName(dto.getLastName());
 		entity.setEmail(dto.getEmail());
-		
-		entity.getRoles().clear();
-		for (RoleDTO roleDto : dto.getRoles()) {
-			Role role = roleRepository.getReferenceById(roleDto.getId());
-			entity.getRoles().add(role);
-		} 
 	}
 	
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.devsuperior.DSCatalog.services.exceptions.CustomError;
 import com.devsuperior.DSCatalog.services.exceptions.DatabaseException;
+import com.devsuperior.DSCatalog.services.exceptions.EmailException;
 import com.devsuperior.DSCatalog.services.exceptions.ForbiddenException;
 import com.devsuperior.DSCatalog.services.exceptions.ResourceNotFoundException;
 import com.devsuperior.DSCatalog.services.exceptions.ValidationError;
@@ -52,5 +53,12 @@ public class ControllerExceptionHandler {
 		CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 	}
+	
+	@ExceptionHandler(EmailException.class)
+    public ResponseEntity<CustomError> email(EmailException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
 	
 }
